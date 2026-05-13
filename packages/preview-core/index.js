@@ -10,9 +10,9 @@ export {
   isAllowedExtension,
   isAllowedHost,
   isUnsafeScheme
-} from "./security.js";
+} from "./security.js?v=20260513-artifact-links";
 
 export { parseInputUrl } from "./github-url.js";
 export { extractHtmlMetadata, injectBaseHref } from "./html-processing.js";
-export { inlineRelativeHtmlFrames } from "./frame-rewriter.js?v=20260513-near-term2";
-export { rewriteInternalHtmlLinks } from "./link-rewriter.js";
+export { inlineRelativeHtmlFrames } from "./frame-rewriter.js?v=20260513-artifact-links";
+export { rewriteInternalHtmlLinks } from "./link-rewriter.js?v=20260513-artifact-links";

@@ -23,3 +23,5 @@ Use a local server or GitHub Pages deployment and run `tools/prepare-site.ps1` b
 19. Add `&embed=live` to the ChartForgeX catalog URL and confirm nested HTML iframes render immediately.
 20. Add `&embed=off` to the ChartForgeX catalog URL and confirm nested HTML iframes are skipped with a clear placeholder.
 21. Open the base domain and confirm the favicon, source CTA, and generic share metadata assets are present.
+22. In the ChartForgeX catalog, click a card `HTML` link and confirm the linked report opens through the previewer.
+23. In the ChartForgeX catalog, click card `SVG` and `PNG` links and confirm the raw artifacts open in normal browser tabs.

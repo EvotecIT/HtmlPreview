@@ -1,5 +1,7 @@
 import { isAllowedExtension, isUnsafeScheme } from "./security.js";
 
+const OPENABLE_ARTIFACT_EXTENSIONS = new Set([".svg", ".png"]);
+
 function isRelativeHtmlCandidate(href) {
   const value = String(href || "").trim();
 
@@ -21,6 +23,12 @@ function isRelativeHtmlCandidate(href) {
 function getPathExtension(pathname) {
   const lower = String(pathname || "").toLowerCase();
   return lower.endsWith(".html") || lower.endsWith(".htm");
+}
+
+function getOpenableArtifactExtension(pathname) {
+  const lower = String(pathname || "").toLowerCase();
+  const match = lower.match(/(\.[a-z0-9]+)$/);
+  return match ? match[1] : "";
 }
 
 function createViewerUrl(blobUrl, previewBaseUrl) {
@@ -46,22 +54,37 @@ export function rewriteInternalHtmlLinks(html, context, previewBaseUrl) {
       return;
     }
 
-    let resolved;
+    let blobResolved;
     try {
-      resolved = new URL(originalHref, context.githubBlobUrl);
+      blobResolved = new URL(originalHref, context.githubBlobUrl);
     } catch {
       return;
     }
 
-    if (resolved.hostname !== "github.com" || !resolved.pathname.includes("/blob/")) {
+    if (blobResolved.hostname !== "github.com" || !blobResolved.pathname.includes("/blob/")) {
       return;
     }
 
-    if (!getPathExtension(resolved.pathname) || !isAllowedExtension(resolved.pathname)) {
+    if (getPathExtension(blobResolved.pathname) && isAllowedExtension(blobResolved.pathname)) {
+      anchor.setAttribute("href", createViewerUrl(blobResolved.href, previewBaseUrl));
+      anchor.setAttribute("target", "_blank");
+      anchor.setAttribute("rel", "noopener noreferrer");
       return;
     }
 
-    anchor.setAttribute("href", createViewerUrl(resolved.href, previewBaseUrl));
+    const artifactExtension = getOpenableArtifactExtension(blobResolved.pathname);
+    if (!OPENABLE_ARTIFACT_EXTENSIONS.has(artifactExtension)) {
+      return;
+    }
+
+    let rawResolved;
+    try {
+      rawResolved = new URL(originalHref, context.rawBaseUrl);
+    } catch {
+      return;
+    }
+
+    anchor.setAttribute("href", rawResolved.href);
     anchor.setAttribute("target", "_blank");
     anchor.setAttribute("rel", "noopener noreferrer");
   });

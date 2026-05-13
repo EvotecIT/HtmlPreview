@@ -12,11 +12,11 @@ Only `.html` and `.htm` files are supported. Unsafe schemes such as `javascript:
 Rendered HTML is placed in an iframe using:
 
 ```text
-sandbox="allow-scripts allow-popups allow-downloads allow-forms"
+sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads allow-forms"
 referrerpolicy="no-referrer"
 ```
 
-`allow-same-origin` is intentionally not included by default.
+`allow-same-origin` is intentionally not included by default. User-clicked popups are allowed to escape the iframe sandbox so rewritten report links and linked SVG/PNG artifacts open as normal browser tabs instead of inheriting the preview iframe restrictions.
 
 ## Parent Isolation
 

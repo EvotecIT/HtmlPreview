@@ -6,7 +6,7 @@ import {
   injectBaseHref,
   parseInputUrl,
   rewriteInternalHtmlLinks
-} from "./core/index.js?v=20260513-near-term2";
+} from "./core/index.js?v=20260513-artifact-links";
 
 const form = document.querySelector("#preview-form");
 const urlInput = document.querySelector("#url-input");

@@ -18,7 +18,7 @@ export const UNSAFE_SCHEMES = Object.freeze([
   "ftp:"
 ]);
 
-export const IFRAME_SANDBOX = "allow-scripts allow-popups allow-downloads allow-forms";
+export const IFRAME_SANDBOX = "allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads allow-forms";
 export const IFRAME_REFERRER_POLICY = "no-referrer";
 
 export function isUnsafeScheme(value) {
