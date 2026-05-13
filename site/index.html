@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="./assets/styles.css?v=20260513-source-polish">
   </head>
   <body>
+    <script>
+      (() => {
+        const query = window.location.search.slice(1);
+        const params = new URLSearchParams(window.location.search);
+        document.body.dataset.view = params.get("url") || query ? "loading-preview" : "landing";
+      })();
+    </script>
     <svg class="icon-sprite" aria-hidden="true" focusable="false">
       <symbol id="icon-github" viewBox="0 0 16 16">
         <path fill="currentColor" d="M8 0C3.58 0 0 3.67 0 8.2c0 3.62 2.29 6.69 5.47 7.77.4.08.55-.18.55-.39 0-.19-.01-.84-.01-1.53-2.01.38-2.53-.5-2.69-.96-.09-.24-.48-.96-.82-1.15-.28-.16-.68-.55-.01-.56.63-.01 1.08.59 1.23.84.72 1.24 1.87.89 2.33.68.07-.53.28-.89.51-1.1-1.78-.21-3.64-.91-3.64-4.04 0-.89.31-1.62.82-2.2-.08-.21-.36-1.04.08-2.16 0 0 .67-.22 2.2.84A7.4 7.4 0 0 1 8 3.96c.68 0 1.36.09 2 .28 1.53-1.06 2.2-.84 2.2-.84.44 1.12.16 1.95.08 2.16.51.58.82 1.31.82 2.2 0 3.14-1.87 3.83-3.65 4.04.29.26.54.76.54 1.54 0 1.1-.01 1.99-.01 2.26 0 .21.15.47.55.39A8.18 8.18 0 0 0 16 8.2C16 3.67 12.42 0 8 0Z"/>
@@ -96,7 +103,7 @@
           <button id="fullscreen-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-maximize"></use></svg><span>Full screen</span></button>
         </div>
 
-        <div id="status-panel" class="status-panel" role="status" aria-live="polite">Enter a public GitHub .html or .htm file URL to preview it here.</div>
+        <div id="status-panel" class="status-panel" role="status" aria-live="polite">Loading preview...</div>
       </section>
 
       <section class="workspace">
@@ -130,6 +137,6 @@
       <p class="note">Best for public, self-contained HTML reports or reports using public CDN assets. Relative assets are resolved against raw.githubusercontent.com.</p>
     </main>
 
-    <script type="module" src="./assets/app.js?v=20260513-iframe-inline"></script>
+    <script type="module" src="./assets/app.js?v=20260513-initial-mode-lazy"></script>
   </body>
 </html>

@@ -77,6 +77,8 @@ export async function inlineRelativeHtmlFrames(html, context, previewBaseUrl, op
       frame.setAttribute("srcdoc", nestedProcessed);
       frame.setAttribute("sandbox", IFRAME_SANDBOX);
       frame.setAttribute("referrerpolicy", IFRAME_REFERRER_POLICY);
+      frame.setAttribute("loading", "lazy");
+      frame.setAttribute("data-html-preview-inlined", "true");
     } catch (error) {
       frame.setAttribute("title", `Unable to inline nested HTML frame: ${error instanceof Error ? error.message : "unknown error"}`);
     }

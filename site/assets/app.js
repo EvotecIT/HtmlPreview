@@ -6,7 +6,7 @@ import {
   injectBaseHref,
   parseInputUrl,
   rewriteInternalHtmlLinks
-} from "./core/index.js?v=20260513-iframe-inline";
+} from "./core/index.js?v=20260513-initial-mode-lazy";
 
 const form = document.querySelector("#preview-form");
 const urlInput = document.querySelector("#url-input");
@@ -232,4 +232,5 @@ if (initialUrl) {
   setActionButtons(false);
   setMetadata(null);
   setPreviewSummary(null, null);
+  setStatus("Enter a public GitHub .html or .htm file URL to preview it here.", "neutral");
 }
