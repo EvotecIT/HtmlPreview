@@ -14,5 +14,5 @@ export {
 
 export { parseInputUrl } from "./github-url.js";
 export { extractHtmlMetadata, injectBaseHref } from "./html-processing.js";
-export { inlineRelativeHtmlFrames } from "./frame-rewriter.js?v=20260513-initial-mode-lazy2";
+export { inlineRelativeHtmlFrames } from "./frame-rewriter.js?v=20260513-near-term2";
 export { rewriteInternalHtmlLinks } from "./link-rewriter.js";

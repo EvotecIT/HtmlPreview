@@ -20,7 +20,7 @@ Stage 1 is a static GitHub Pages app. There is no server, proxy, database, GitHu
 3. The browser fetches `rawFileUrl` directly from `raw.githubusercontent.com`.
 4. `injectBaseHref` removes existing `<base>` tags and inserts one pointing to `rawBaseUrl`.
 5. `rewriteInternalHtmlLinks` rewrites relative `.html` and `.htm` links to this previewer.
-6. `inlineRelativeHtmlFrames` inlines relative `.html` and `.htm` iframe sources as nested `srcdoc` frames where possible.
+6. `inlineRelativeHtmlFrames` handles relative `.html` and `.htm` iframe sources. The default `embed=lazy` mode prepares nested frames but loads them on demand. `embed=live` renders them immediately and `embed=off` skips them.
 7. The processed HTML is assigned to a sandboxed iframe through `srcdoc`.
 
 Relative CSS, JavaScript, and image assets are not rewritten in Stage 1. They rely on the injected base URL.

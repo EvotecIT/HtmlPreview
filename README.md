@@ -26,6 +26,8 @@ Raw GitHub URLs are also supported:
 https://raw.githubusercontent.com/OWNER/REPO/BRANCH/path/report.html
 ```
 
+For heavy report catalogs, nested HTML iframes default to lazy placeholders. Add `embed=live` to render nested HTML previews immediately, or `embed=off` to skip them.
+
 ## What Happens
 
 ```mermaid
@@ -47,6 +49,7 @@ The previewer stays static. There is no backend, proxy, authentication, database
 - Inline CSS and JavaScript when you want maximum portability.
 - Public CDN assets.
 - Relative CSS, JavaScript, images, and nested relative `.html` iframes that can resolve from `raw.githubusercontent.com`.
+- Heavy catalogs where nested examples can load on demand.
 
 ## Current Limits
 

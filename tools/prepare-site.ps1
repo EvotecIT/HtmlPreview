@@ -27,7 +27,7 @@ foreach ($file in $files) {
 }
 
 $shim = Join-Path $assetShimTarget 'index.js'
-Set-Content -LiteralPath $shim -Value "export * from '../../core/index.js?v=20260513-initial-mode-lazy2';" -Encoding UTF8
+Set-Content -LiteralPath $shim -Value "export * from '../../core/index.js?v=20260513-near-term2';" -Encoding UTF8
 Write-Host "Created $shim"
 
 if (-not (Test-Path -LiteralPath $siteNoJekyll)) {

@@ -7,11 +7,14 @@
     <meta name="description" content="Preview public GitHub-hosted HTML reports in a sandboxed static viewer.">
     <meta property="og:title" content="Evotec HTML Preview">
     <meta property="og:description" content="Preview public GitHub-hosted HTML reports in a sandboxed static viewer.">
+    <meta property="og:image" content="https://preview.evotec.xyz/assets/preview-card.svg">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Evotec HTML Preview">
     <meta name="twitter:description" content="Preview public GitHub-hosted HTML reports in a sandboxed static viewer.">
-    <link rel="stylesheet" href="./assets/styles.css?v=20260513-source-polish">
+    <meta name="twitter:image" content="https://preview.evotec.xyz/assets/preview-card.svg">
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/styles.css?v=20260513-near-term2">
   </head>
   <body>
     <script>
@@ -104,6 +107,11 @@
         </div>
 
         <div id="status-panel" class="status-panel" role="status" aria-live="polite">Loading preview...</div>
+        <div class="loading-card" aria-hidden="true">
+          <span></span>
+          <strong>Preparing preview</strong>
+          <small>Fetching public GitHub HTML, resolving relative paths, and loading the sandbox.</small>
+        </div>
       </section>
 
       <section class="workspace">
@@ -137,6 +145,6 @@
       <p class="note">Best for public, self-contained HTML reports or reports using public CDN assets. Relative assets are resolved against raw.githubusercontent.com.</p>
     </main>
 
-    <script type="module" src="./assets/app.js?v=20260513-initial-mode-lazy2"></script>
+    <script type="module" src="./assets/app.js?v=20260513-near-term2"></script>
   </body>
 </html>

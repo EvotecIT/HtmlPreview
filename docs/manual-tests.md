@@ -18,3 +18,8 @@ Use a local server or GitHub Pages deployment and run `tools/prepare-site.ps1` b
 14. Use Copy preview link and confirm the canonical `?url=` URL is copied.
 15. Use Open source on GitHub and confirm the blob URL opens.
 16. Use Open raw file and confirm the raw file URL opens.
+17. Open a direct `?url=` preview and confirm the landing screen does not flash before the preview loads.
+18. Preview the ChartForgeX catalog and confirm nested HTML iframes show lazy placeholders by default.
+19. Add `&embed=live` to the ChartForgeX catalog URL and confirm nested HTML iframes render immediately.
+20. Add `&embed=off` to the ChartForgeX catalog URL and confirm nested HTML iframes are skipped with a clear placeholder.
+21. Open the base domain and confirm the favicon, source CTA, and generic share metadata assets are present.

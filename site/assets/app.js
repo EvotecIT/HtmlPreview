@@ -6,7 +6,7 @@ import {
   injectBaseHref,
   parseInputUrl,
   rewriteInternalHtmlLinks
-} from "./core/index.js?v=20260513-initial-mode-lazy2";
+} from "./core/index.js?v=20260513-near-term2";
 
 const form = document.querySelector("#preview-form");
 const urlInput = document.querySelector("#url-input");
@@ -36,6 +36,7 @@ const metadataFields = {
 let currentContext = null;
 let currentPreviewUrl = "";
 const defaultDocumentTitle = document.title;
+const VALID_EMBED_MODES = new Set(["lazy", "live", "off"]);
 
 previewFrame.setAttribute("sandbox", IFRAME_SANDBOX);
 previewFrame.setAttribute("referrerpolicy", IFRAME_REFERRER_POLICY);
@@ -44,11 +45,14 @@ function getPreviewBaseUrl() {
   return `${window.location.origin}${window.location.pathname}`;
 }
 
-function getCanonicalPreviewUrl(sourceUrl) {
+function getCanonicalPreviewUrl(sourceUrl, embedMode = "lazy") {
   const url = new URL(window.location.href);
   url.search = "";
   url.hash = "";
   url.searchParams.set("url", sourceUrl);
+  if (embedMode !== "lazy") {
+    url.searchParams.set("embed", embedMode);
+  }
   return url.href;
 }
 
@@ -70,6 +74,12 @@ function readInitialQueryUrl() {
   } catch {
     return legacy;
   }
+}
+
+function readEmbedMode() {
+  const params = new URLSearchParams(window.location.search);
+  const value = params.get("embed") || "";
+  return VALID_EMBED_MODES.has(value) ? value : "lazy";
 }
 
 function setStatus(message, mode = "neutral") {
@@ -144,14 +154,19 @@ async function loadPreview(input) {
     }
 
     const sourceHtml = await response.text();
+    setStatus("Preparing report preview...", "neutral");
+    const embedMode = readEmbedMode();
     const metadata = extractHtmlMetadata(sourceHtml);
     const withBase = injectBaseHref(sourceHtml, context.rawBaseUrl);
     const withLinks = rewriteInternalHtmlLinks(withBase, context, getPreviewBaseUrl());
-    const processedHtml = await inlineRelativeHtmlFrames(withLinks, context, getPreviewBaseUrl());
+    const processedHtml = await inlineRelativeHtmlFrames(withLinks, context, getPreviewBaseUrl(), {
+      embedMode
+    });
 
+    setStatus("Rendering sandboxed preview...", "neutral");
     previewFrame.srcdoc = processedHtml;
     currentContext = context;
-    currentPreviewUrl = getCanonicalPreviewUrl(context.inputUrl);
+    currentPreviewUrl = getCanonicalPreviewUrl(context.inputUrl, embedMode);
 
     setMetadata(context);
     setPreviewSummary(context, metadata);
