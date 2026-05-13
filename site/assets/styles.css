@@ -10,8 +10,10 @@
   --line-strong: rgba(80, 96, 121, 0.35);
   --accent: #0d9488;
   --accent-strong: #0f766e;
-  --accent-soft: #d9f7f1;
-  --gold: #b7791f;
+  --accent-soft: #d8fbf3;
+  --indigo: #3b5bdb;
+  --rose: #c026d3;
+  --gold: #c47f12;
   --danger: #b42318;
   --success: #087443;
   --shadow-sm: 0 10px 24px rgba(16, 24, 40, 0.08);
@@ -31,17 +33,18 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    linear-gradient(120deg, rgba(13, 148, 136, 0.14), transparent 28%),
-    linear-gradient(250deg, rgba(183, 121, 31, 0.12), transparent 24%),
-    linear-gradient(180deg, #fbfcfe 0%, var(--page) 100%);
+    radial-gradient(circle at 12% 8%, rgba(13, 148, 136, 0.20), transparent 28%),
+    radial-gradient(circle at 88% 5%, rgba(196, 127, 18, 0.15), transparent 25%),
+    radial-gradient(circle at 70% 42%, rgba(59, 91, 219, 0.11), transparent 28%),
+    linear-gradient(180deg, #fbfdff 0%, var(--page) 100%);
   color: var(--ink);
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body::before {
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+    linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
   background-size: 44px 44px;
   content: "";
   inset: 0;
@@ -135,13 +138,27 @@ button:disabled {
 
 .brand-mark {
   align-items: center;
-  background: #0b1220;
+  background: linear-gradient(135deg, #0b1220, #172554);
   border-radius: 8px;
   color: white;
   display: inline-flex;
   height: 34px;
+  isolation: isolate;
   justify-content: center;
+  position: relative;
   width: 34px;
+}
+
+.brand-mark::after {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.75), rgba(196, 127, 18, 0.65));
+  border-radius: 999px;
+  content: "";
+  filter: blur(18px);
+  height: 34px;
+  opacity: 0.36;
+  position: absolute;
+  width: 34px;
+  z-index: -1;
 }
 
 .hero h1 {
@@ -165,11 +182,12 @@ button:disabled {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
-  max-width: 440px;
+  max-width: 520px;
 }
 
-.status-pills span,
-.github-chip {
+.status-pills > span,
+.github-chip,
+.source-link {
   align-items: center;
   backdrop-filter: blur(14px);
   background: rgba(255, 255, 255, 0.72);
@@ -185,12 +203,29 @@ button:disabled {
   white-space: nowrap;
 }
 
+.source-link {
+  background: linear-gradient(135deg, rgba(11, 18, 32, 0.95), rgba(23, 37, 84, 0.92));
+  border-color: rgba(255, 255, 255, 0.82);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.source-link svg {
+  height: 16px;
+  width: 16px;
+}
+
+.source-link:hover {
+  box-shadow: 0 12px 24px rgba(23, 37, 84, 0.18);
+  transform: translateY(-1px);
+}
+
 .control-panel,
 .metadata-panel,
 .preview-frame-shell {
   backdrop-filter: blur(18px);
   background: var(--panel);
-  border: 1px solid rgba(255, 255, 255, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.74);
   box-shadow: var(--shadow-lg);
 }
 
@@ -250,7 +285,7 @@ button:disabled {
 
 .input-shell:focus-within {
   border-color: rgba(13, 148, 136, 0.72);
-  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.13);
+  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.13), 0 12px 28px rgba(59, 91, 219, 0.08);
 }
 
 .input-shell svg {
@@ -273,7 +308,7 @@ button:disabled {
 }
 
 .primary-button {
-  background: linear-gradient(135deg, #0f766e, #0d9488);
+  background: linear-gradient(135deg, #0f766e, #0d9488 54%, #2dd4bf);
   border-color: rgba(13, 148, 136, 0.45);
   box-shadow: 0 14px 26px rgba(13, 148, 136, 0.24);
   color: white;
@@ -282,7 +317,7 @@ button:disabled {
 }
 
 .primary-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #0b5f59, #0f766e);
+  background: linear-gradient(135deg, #0b5f59, #0f766e 58%, #14b8a6);
   border-color: rgba(13, 148, 136, 0.60);
 }
 
@@ -290,6 +325,10 @@ button:disabled {
   display: flex;
   flex-wrap: wrap;
   gap: 9px;
+}
+
+body[data-view="landing"] .action-row {
+  display: none;
 }
 
 .preview-summary {
@@ -360,8 +399,8 @@ button:disabled {
 }
 
 .metadata-heading span {
-  background: var(--accent-soft);
-  border: 1px solid rgba(13, 148, 136, 0.18);
+  background: linear-gradient(135deg, var(--accent-soft), rgba(238, 242, 255, 0.92));
+  border: 1px solid rgba(13, 148, 136, 0.20);
   border-radius: 999px;
   color: var(--accent-strong);
   font-size: 0.72rem;
