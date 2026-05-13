@@ -6,7 +6,7 @@ import {
   injectBaseHref,
   parseInputUrl,
   rewriteInternalHtmlLinks
-} from "./core/index.js";
+} from "./core/index.js?v=20260513-iframe-inline";
 
 const form = document.querySelector("#preview-form");
 const urlInput = document.querySelector("#url-input");
