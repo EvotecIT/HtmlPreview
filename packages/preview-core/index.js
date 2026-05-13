@@ -10,9 +10,9 @@ export {
   isAllowedExtension,
   isAllowedHost,
   isUnsafeScheme
-} from "./security.js?v=20260513-frame-fill";
+} from "./security.js?v=20260513-placeholder-polish";
 
 export { parseInputUrl } from "./github-url.js";
 export { extractHtmlMetadata, injectBaseHref } from "./html-processing.js";
-export { inlineRelativeHtmlFrames } from "./frame-rewriter.js?v=20260513-frame-fill";
-export { rewriteInternalHtmlLinks } from "./link-rewriter.js?v=20260513-frame-fill";
+export { inlineRelativeHtmlFrames } from "./frame-rewriter.js?v=20260513-placeholder-polish";
+export { rewriteInternalHtmlLinks } from "./link-rewriter.js?v=20260513-placeholder-polish";

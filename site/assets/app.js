@@ -6,7 +6,7 @@ import {
   injectBaseHref,
   parseInputUrl,
   rewriteInternalHtmlLinks
-} from "./core/index.js?v=20260513-frame-fill";
+} from "./core/index.js?v=20260513-placeholder-polish";
 
 const form = document.querySelector("#preview-form");
 const urlInput = document.querySelector("#url-input");

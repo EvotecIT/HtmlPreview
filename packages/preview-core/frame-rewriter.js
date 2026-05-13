@@ -114,8 +114,8 @@ export async function inlineRelativeHtmlFrames(html, context, previewBaseUrl, op
 }
 
 function createPlaceholderFrame(context, mode) {
-  const message = mode === "off" ? "Nested preview skipped" : "Nested preview ready";
-  const action = mode === "off" ? "Use embed=live to render this frame." : "Click the catalog card to load this frame.";
+  const message = mode === "off" ? "Preview skipped" : "Interactive preview";
+  const action = mode === "off" ? "Use embed=live to render this frame." : "Loaded on demand for smoother browsing.";
 
   return `<!doctype html>
 <html lang="en">
@@ -123,18 +123,24 @@ function createPlaceholderFrame(context, mode) {
     <meta charset="utf-8">
     <style>
       html, body { height: 100%; margin: 0; overflow: hidden; }
-      body { background: radial-gradient(circle at 20% 20%, rgba(94,234,212,.20), transparent 34%), linear-gradient(135deg, #0f172a, #111827 52%, #0f766e); color: #f8fafc; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-      main { align-items: center; display: flex; flex-direction: column; gap: 6px; height: 100%; justify-content: center; padding: 18px; text-align: center; }
-      h1 { font-size: clamp(1rem, 4vw, 1.35rem); line-height: 1.15; margin: 0; }
-      p { color: #cbd5e1; font-size: clamp(.76rem, 2.2vw, .95rem); line-height: 1.35; margin: 0; max-width: 34rem; }
-      code { color: #5eead4; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+      body { background: #161718; color: #f4f0e8; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      body::before { background: radial-gradient(circle at 50% 48%, rgba(45,212,191,.13), transparent 0 20%, rgba(45,212,191,.04) 38%, transparent 62%); content: ""; inset: 0; position: fixed; }
+      main { align-items: center; display: flex; height: 100%; justify-content: center; padding: 24px; position: relative; text-align: center; transform: translateY(-34px); }
+      section { align-items: center; display: flex; flex-direction: column; gap: 7px; max-width: min(34rem, 82vw); }
+      .mark { align-items: center; border: 1px solid rgba(45,212,191,.42); border-radius: 999px; color: #5eead4; display: inline-flex; font-size: 12px; font-weight: 900; height: 30px; justify-content: center; letter-spacing: .06em; margin-bottom: 4px; padding: 0 12px; text-transform: uppercase; }
+      h1 { color: #f8fafc; font-size: clamp(1rem, 2.4vw, 1.28rem); line-height: 1.15; margin: 0; }
+      p { color: #b8c0cc; font-size: clamp(.74rem, 1.45vw, .92rem); line-height: 1.35; margin: 0; max-width: 30rem; }
+      code { color: #5eead4; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .92em; overflow-wrap: anywhere; }
     </style>
   </head>
   <body>
     <main>
-      <h1>${escapeHtml(message)}</h1>
-      <p><code>${escapeHtml(context.fileName)}</code></p>
-      <p>${escapeHtml(action)}</p>
+      <section aria-label="${escapeHtml(message)}">
+        <span class="mark">HTML</span>
+        <h1>${escapeHtml(message)}</h1>
+        <p><code>${escapeHtml(context.fileName)}</code></p>
+        <p>${escapeHtml(action)}</p>
+      </section>
     </main>
   </body>
 </html>`;
@@ -172,19 +178,33 @@ iframe[data-html-preview-srcdoc] {
   background: linear-gradient(135deg, #0f766e, #0d9488);
   border: 1px solid rgba(94, 234, 212, .45);
   border-radius: 8px;
-  box-shadow: 0 16px 32px rgba(13, 148, 136, .22);
+  box-shadow: 0 14px 26px rgba(13, 148, 136, .20);
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font: 800 13px/1 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font: 850 12px/1 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   gap: 8px;
   left: 50%;
   margin: 0;
-  padding: 10px 12px;
+  padding: 10px 13px;
   position: absolute;
   top: 50%;
-  transform: translate(-50%, 52px);
+  transform: translate(-50%, 58px);
   z-index: 2;
+}
+.html-preview-frame-load:hover {
+  background: linear-gradient(135deg, #0d9488, #14b8a6);
+}
+.html-preview-frame-load:focus-visible {
+  outline: 2px solid #5eead4;
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .html-preview-frame-load {
+    max-width: calc(100% - 32px);
+    transform: translate(-50%, 54px);
+    white-space: normal;
+  }
 }`;
 
   const script = parsed.createElement("script");
