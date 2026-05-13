@@ -1,0 +1,20 @@
+body {
+  background: #f5f7fb;
+  color: #172033;
+  font-family: system-ui, sans-serif;
+  margin: 0;
+}
+
+.report {
+  background: white;
+  border: 1px solid #d8e0ec;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 720px;
+  padding: 2rem;
+}
+
+output {
+  color: #0f766e;
+  font-weight: 700;
+}

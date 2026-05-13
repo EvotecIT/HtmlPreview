@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Evotec HTML Preview</title>
+    <meta name="description" content="Preview public GitHub-hosted HTML reports in a sandboxed static viewer.">
+    <link rel="stylesheet" href="./assets/styles.css">
+  </head>
+  <body>
+    <svg class="icon-sprite" aria-hidden="true" focusable="false">
+      <symbol id="icon-github" viewBox="0 0 16 16">
+        <path fill="currentColor" d="M8 0C3.58 0 0 3.67 0 8.2c0 3.62 2.29 6.69 5.47 7.77.4.08.55-.18.55-.39 0-.19-.01-.84-.01-1.53-2.01.38-2.53-.5-2.69-.96-.09-.24-.48-.96-.82-1.15-.28-.16-.68-.55-.01-.56.63-.01 1.08.59 1.23.84.72 1.24 1.87.89 2.33.68.07-.53.28-.89.51-1.1-1.78-.21-3.64-.91-3.64-4.04 0-.89.31-1.62.82-2.2-.08-.21-.36-1.04.08-2.16 0 0 .67-.22 2.2.84A7.4 7.4 0 0 1 8 3.96c.68 0 1.36.09 2 .28 1.53-1.06 2.2-.84 2.2-.84.44 1.12.16 1.95.08 2.16.51.58.82 1.31.82 2.2 0 3.14-1.87 3.83-3.65 4.04.29.26.54.76.54 1.54 0 1.1-.01 1.99-.01 2.26 0 .21.15.47.55.39A8.18 8.18 0 0 0 16 8.2C16 3.67 12.42 0 8 0Z"/>
+      </symbol>
+      <symbol id="icon-eye" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M2.25 12s3.5-6.25 9.75-6.25S21.75 12 21.75 12 18.25 18.25 12 18.25 2.25 12 2.25 12Z"/>
+        <circle cx="12" cy="12" r="2.75" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      </symbol>
+      <symbol id="icon-copy" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M8 8h11v13H8z"/>
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 16H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v1"/>
+      </symbol>
+      <symbol id="icon-external" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6M20 4l-9 9"/>
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M10 5H5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-5"/>
+      </symbol>
+      <symbol id="icon-code" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="m8 9-4 3 4 3M16 9l4 3-4 3M14 4l-4 16"/>
+      </symbol>
+      <symbol id="icon-maximize" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M8 3H3v5M21 8V3h-5M16 21h5v-5M3 16v5h5"/>
+      </symbol>
+      <symbol id="icon-link" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M10.25 13.75a3.4 3.4 0 0 0 4.8 0l3.2-3.2a3.4 3.4 0 0 0-4.8-4.8l-.85.85"/>
+        <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M13.75 10.25a3.4 3.4 0 0 0-4.8 0l-3.2 3.2a3.4 3.4 0 0 0 4.8 4.8l.85-.85"/>
+      </symbol>
+    </svg>
+    <main class="app-shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="brand-line">
+            <span class="brand-mark"><svg aria-hidden="true"><use href="#icon-github"></use></svg></span>
+            <span>Evotec HTML Preview</span>
+          </div>
+          <h1>Render GitHub HTML reports with a cleaner preview surface.</h1>
+          <p>Preview public GitHub HTML files without enabling GitHub Pages for each report.</p>
+        </div>
+        <div class="status-pills" aria-label="Previewer capabilities">
+          <span>Static</span>
+          <span>No backend</span>
+          <span>GitHub-only</span>
+          <span>Sandbox iframe</span>
+        </div>
+      </section>
+
+      <section class="control-panel" aria-label="Preview controls">
+        <form id="preview-form" class="url-form">
+          <div class="panel-heading">
+            <div>
+              <label for="url-input">GitHub HTML URL</label>
+              <p>Paste a public blob or raw URL ending in .html or .htm.</p>
+            </div>
+            <span class="github-chip"><svg aria-hidden="true"><use href="#icon-github"></use></svg> GitHub source</span>
+          </div>
+          <div class="url-row">
+            <div class="input-shell">
+              <svg aria-hidden="true"><use href="#icon-link"></use></svg>
+              <input id="url-input" name="url" type="url" autocomplete="off" spellcheck="false" placeholder="https://github.com/OWNER/REPO/blob/main/report.html">
+            </div>
+            <button id="preview-button" class="primary-button" type="submit">
+              <svg aria-hidden="true"><use href="#icon-eye"></use></svg>
+              <span class="button-label">Preview</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="action-row" aria-label="Preview actions">
+          <button id="copy-link-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-copy"></use></svg><span>Copy preview link</span></button>
+          <button id="open-source-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-github"></use></svg><span>Open on GitHub</span></button>
+          <button id="open-raw-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-code"></use></svg><span>Open raw</span></button>
+          <button id="fullscreen-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-maximize"></use></svg><span>Full screen</span></button>
+        </div>
+
+        <div id="status-panel" class="status-panel" role="status" aria-live="polite">Enter a public GitHub .html or .htm file URL to preview it here.</div>
+      </section>
+
+      <section class="workspace">
+        <aside class="metadata-panel" aria-label="Preview metadata">
+          <div class="metadata-heading">
+            <h2>Source context</h2>
+            <span>normalized</span>
+          </div>
+          <dl>
+            <div><dt>owner</dt><dd id="meta-owner">-</dd></div>
+            <div><dt>repo</dt><dd id="meta-repo">-</dd></div>
+            <div><dt>branch</dt><dd id="meta-branch">-</dd></div>
+            <div><dt>filePath</dt><dd id="meta-file-path">-</dd></div>
+            <div><dt>rawFileUrl</dt><dd id="meta-raw-file-url">-</dd></div>
+            <div><dt>rawBaseUrl</dt><dd id="meta-raw-base-url">-</dd></div>
+            <div><dt>githubBlobUrl</dt><dd id="meta-github-blob-url">-</dd></div>
+          </dl>
+        </aside>
+
+        <section id="preview-frame-shell" class="preview-frame-shell" aria-label="HTML preview">
+          <div class="preview-toolbar" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <strong>Sandboxed preview</strong>
+          </div>
+          <iframe id="preview-frame" title="GitHub HTML preview"></iframe>
+        </section>
+      </section>
+
+      <p class="note">Best for public, self-contained HTML reports or reports using public CDN assets. Relative assets are resolved against raw.githubusercontent.com.</p>
+    </main>
+
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>

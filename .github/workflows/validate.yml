@@ -1,0 +1,49 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare static site
+        shell: pwsh
+        run: ./tools/prepare-site.ps1
+
+      - name: Verify required files
+        shell: pwsh
+        run: |
+          $required = @(
+            'site/index.html',
+            'site/assets/app.js',
+            'site/assets/styles.css',
+            'site/core/index.js',
+            'site/assets/core/index.js',
+            'packages/preview-core/index.js',
+            'packages/preview-core/github-url.js',
+            'packages/preview-core/html-processing.js',
+            'packages/preview-core/link-rewriter.js',
+            'packages/preview-core/security.js'
+          )
+
+          foreach ($path in $required) {
+            if (-not (Test-Path -LiteralPath $path)) {
+              throw "Missing required file: $path"
+            }
+          }
+
+      - name: Check for accidental work markers
+        shell: pwsh
+        run: |
+          $paths = @('site', 'packages/preview-core', 'docs', 'tools')
+          $files = Get-ChildItem -Path $paths -File -Recurse
+          $matches = $files | Select-String -Pattern '\b(TODO|FIXME)\b' -ErrorAction SilentlyContinue
+          if ($matches) {
+            $matches | ForEach-Object { Write-Host "$($_.Path):$($_.LineNumber): $($_.Line)" }
+            throw "Remove accidental TODO or FIXME markers from Stage 1 files."
+          }
