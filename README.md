@@ -1,53 +1,83 @@
 # Evotec HTML Preview
 
-Static GitHub Pages-hostable previewer for public GitHub `.html` and `.htm` files. It fetches a raw GitHub HTML file in the browser, injects a `<base>` URL for relative assets, rewrites relative HTML links back through the previewer, and renders the result in a sandboxed iframe.
+Preview public GitHub-hosted HTML reports without turning every report folder into its own GitHub Pages site.
 
-This is not a proxy, backend, browser extension, private repository viewer, sanitizer, or multi-forge gateway.
+Open the previewer, paste a GitHub `.html` or `.htm` file URL, and share the generated preview link. Direct preview links open report-first, with the report filling the browser window and a small action dock for copying/opening the source.
 
-## Stage 1 Scope
+[Open preview.evotec.xyz](https://preview.evotec.xyz/) · [View source](https://github.com/EvotecIT/HtmlPreview)
 
-- Supports `github.com/OWNER/REPO/blob/BRANCH/path/file.html`
-- Supports `raw.githubusercontent.com/OWNER/REPO/BRANCH/path/file.html`
-- Converts blob URLs to raw URLs
-- Inlines relative nested `.html` and `.htm` iframe previews where possible
-- Runs fully as static HTML, CSS, and browser ES modules
-- Uses `packages/preview-core` as the source of truth, copied into `site/core` by `tools/prepare-site.ps1`
+## Use It
 
-Future stages are documented in [docs/roadmap.md](docs/roadmap.md) and are not implemented here.
-
-## Usage
+Paste a GitHub blob URL:
 
 ```text
-https://evotecit.github.io/HtmlPreview/?url=https://github.com/EvotecIT/ChartForgeX/blob/main/Website/static/examples/generated/example.html
+https://github.com/EvotecIT/ChartForgeX/blob/main/Website/static/examples/generated/catalog.html
 ```
 
-Legacy direct query form is also accepted:
+Or share it as a preview link:
 
 ```text
-https://evotecit.github.io/HtmlPreview/?https://github.com/OWNER/REPO/blob/main/file.html
+https://preview.evotec.xyz/?url=https://github.com/EvotecIT/ChartForgeX/blob/main/Website/static/examples/generated/catalog.html
 ```
 
-Opening the base domain shows the URL entry screen. Opening a URL with `?url=` loads the report in a full-window preview mode with a compact action dock.
+Raw GitHub URLs are also supported:
 
-## Local Development
+```text
+https://raw.githubusercontent.com/OWNER/REPO/BRANCH/path/report.html
+```
+
+## What Happens
+
+```mermaid
+flowchart LR
+    person["Person with a report link"] --> paste["Paste or open preview URL"]
+    paste --> preview["preview.evotec.xyz"]
+    preview --> check["Validate public GitHub HTML URL"]
+    check --> raw["Fetch raw GitHub HTML in the browser"]
+    raw --> prepare["Add base URL, rewrite report links, inline nested HTML frames"]
+    prepare --> frame["Render report inside sandboxed iframe"]
+    frame --> share["Copy preview link or open GitHub source"]
+```
+
+The previewer stays static. There is no backend, proxy, authentication, database, or GitHub API call in Stage 1.
+
+## Works Best With
+
+- Single-file HTML reports.
+- Inline CSS and JavaScript when you want maximum portability.
+- Public CDN assets.
+- Relative CSS, JavaScript, images, and nested relative `.html` iframes that can resolve from `raw.githubusercontent.com`.
+
+## Current Limits
+
+- Public GitHub files only.
+- No private repositories or authentication.
+- No CORS proxy or asset downloader.
+- No HTML sanitization engine.
+- Branch names containing slashes are not fully supported in Stage 1.
+- Per-report social unfurl metadata is not possible without a backend because link preview crawlers need metadata in the first HTML response.
+
+## Develop Locally
 
 ```powershell
-.\tools\prepare-site.ps1
 .\tools\serve-local.ps1
 ```
 
-Then open `http://localhost:8080/`.
+That runs `tools/prepare-site.ps1` first, copies `packages/preview-core` into the generated site folders, and serves `site/` at:
 
-## GitHub Pages Deployment
+```text
+http://localhost:8080/
+```
 
-The `Deploy GitHub Pages` workflow prepares `site/core`, uploads `site/`, and deploys it with the official GitHub Pages actions. Enable GitHub Pages for the repository and use GitHub Actions as the Pages source.
+## Deploy
 
-## Security And Limitations
+GitHub Pages deployment is handled by `.github/workflows/pages.yml`.
 
-Previewed HTML is assigned only to `iframe.srcdoc` with `sandbox="allow-scripts allow-popups allow-downloads allow-forms"` and `referrerpolicy="no-referrer"`. The parent UI does not inject fetched HTML into its own DOM.
+The workflow prepares the static site, uploads `site/`, and publishes it through GitHub Pages. The custom domain is carried by `site/CNAME`.
 
-Stage 1 is best for public, trusted, self-contained reports. Single-file HTML with inline CSS/JS is most reliable. Public CDN assets are fine. Relative assets are best-effort through the injected `<base href>`. Private repositories, authentication, CORS proxies, branch names containing slashes, and complex multi-file apps are not supported in Stage 1.
+## More Detail
 
-The browser tab title is updated from the fetched report title after load. Per-report social/link preview metadata is not possible in static Stage 1 hosting because unfurlers need metadata in the initial HTML response.
-
-Manual coverage is listed in [docs/manual-tests.md](docs/manual-tests.md).
+- [Architecture](docs/architecture.md)
+- [Security model](docs/security.md)
+- [Manual tests](docs/manual-tests.md)
+- [Roadmap](docs/roadmap.md)
