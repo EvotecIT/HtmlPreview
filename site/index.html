@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Evotec HTML Preview</title>
     <meta name="description" content="Preview public GitHub-hosted HTML reports in a sandboxed static viewer.">
+    <meta property="og:title" content="Evotec HTML Preview">
+    <meta property="og:description" content="Preview public GitHub-hosted HTML reports in a sandboxed static viewer.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Evotec HTML Preview">
+    <meta name="twitter:description" content="Preview public GitHub-hosted HTML reports in a sandboxed static viewer.">
     <link rel="stylesheet" href="./assets/styles.css">
   </head>
   <body>
@@ -75,7 +81,12 @@
         </form>
 
         <div class="action-row" aria-label="Preview actions">
+          <div class="preview-summary" aria-live="polite">
+            <span id="preview-title">No report loaded</span>
+            <small id="preview-source">Waiting for a GitHub HTML file</small>
+          </div>
           <button id="copy-link-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-copy"></use></svg><span>Copy preview link</span></button>
+          <button id="new-preview-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-eye"></use></svg><span>New preview</span></button>
           <button id="open-source-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-github"></use></svg><span>Open on GitHub</span></button>
           <button id="open-raw-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-code"></use></svg><span>Open raw</span></button>
           <button id="fullscreen-button" type="button" disabled><svg aria-hidden="true"><use href="#icon-maximize"></use></svg><span>Full screen</span></button>

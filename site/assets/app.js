@@ -1,6 +1,7 @@
 import {
   IFRAME_REFERRER_POLICY,
   IFRAME_SANDBOX,
+  extractHtmlMetadata,
   injectBaseHref,
   parseInputUrl,
   rewriteInternalHtmlLinks
@@ -11,10 +12,13 @@ const urlInput = document.querySelector("#url-input");
 const previewButton = document.querySelector("#preview-button");
 const previewButtonLabel = previewButton.querySelector(".button-label");
 const copyLinkButton = document.querySelector("#copy-link-button");
+const newPreviewButton = document.querySelector("#new-preview-button");
 const openSourceButton = document.querySelector("#open-source-button");
 const openRawButton = document.querySelector("#open-raw-button");
 const fullscreenButton = document.querySelector("#fullscreen-button");
 const statusPanel = document.querySelector("#status-panel");
+const previewTitle = document.querySelector("#preview-title");
+const previewSource = document.querySelector("#preview-source");
 const previewFrame = document.querySelector("#preview-frame");
 const previewFrameShell = document.querySelector("#preview-frame-shell");
 
@@ -30,6 +34,7 @@ const metadataFields = {
 
 let currentContext = null;
 let currentPreviewUrl = "";
+const defaultDocumentTitle = document.title;
 
 previewFrame.setAttribute("sandbox", IFRAME_SANDBOX);
 previewFrame.setAttribute("referrerpolicy", IFRAME_REFERRER_POLICY);
@@ -71,6 +76,10 @@ function setStatus(message, mode = "neutral") {
   statusPanel.dataset.mode = mode;
 }
 
+function setViewMode(mode) {
+  document.body.dataset.view = mode;
+}
+
 function setLoading(isLoading) {
   previewButton.disabled = isLoading;
   previewButtonLabel.textContent = isLoading ? "Loading..." : "Preview";
@@ -79,6 +88,7 @@ function setLoading(isLoading) {
 
 function setActionButtons(enabled) {
   copyLinkButton.disabled = !enabled;
+  newPreviewButton.disabled = !enabled;
   openSourceButton.disabled = !enabled;
   openRawButton.disabled = !enabled;
   fullscreenButton.disabled = !enabled;
@@ -91,15 +101,29 @@ function setMetadata(context) {
   });
 }
 
+function setPreviewSummary(context, metadata) {
+  const title = metadata?.title || context?.fileName || "No report loaded";
+  previewTitle.textContent = title;
+  previewSource.textContent = context ? `${context.owner}/${context.repo}/${context.filePath}` : "Waiting for a GitHub HTML file";
+  previewFrame.title = title === "No report loaded" ? "GitHub HTML preview" : title;
+  document.title = title === "No report loaded" ? defaultDocumentTitle : `${title} - Evotec HTML Preview`;
+}
+
 function resetPreview() {
   currentContext = null;
   currentPreviewUrl = "";
   previewFrame.removeAttribute("srcdoc");
   setMetadata(null);
+  setPreviewSummary(null, null);
   setActionButtons(false);
 }
 
 async function loadPreview(input) {
+  const loadingFromDirectUrl = Boolean(readInitialQueryUrl()) && !currentContext;
+  if (loadingFromDirectUrl) {
+    setViewMode("loading-preview");
+  }
+
   setLoading(true);
   resetPreview();
 
@@ -119,6 +143,7 @@ async function loadPreview(input) {
     }
 
     const sourceHtml = await response.text();
+    const metadata = extractHtmlMetadata(sourceHtml);
     const withBase = injectBaseHref(sourceHtml, context.rawBaseUrl);
     const processedHtml = rewriteInternalHtmlLinks(withBase, context, getPreviewBaseUrl());
 
@@ -127,12 +152,15 @@ async function loadPreview(input) {
     currentPreviewUrl = getCanonicalPreviewUrl(context.inputUrl);
 
     setMetadata(context);
+    setPreviewSummary(context, metadata);
     setActionButtons(true);
     setStatus("Preview loaded.", "success");
+    setViewMode("preview");
 
     window.history.replaceState({}, "", currentPreviewUrl);
   } catch (error) {
     resetPreview();
+    setViewMode("landing");
     setStatus(error instanceof Error ? error.message : "Unable to load this preview.", "error");
   } finally {
     setLoading(false);
@@ -155,6 +183,16 @@ copyLinkButton.addEventListener("click", async () => {
   } catch {
     setStatus(currentPreviewUrl, "neutral");
   }
+});
+
+newPreviewButton.addEventListener("click", () => {
+  resetPreview();
+  setViewMode("landing");
+  setStatus("Enter a public GitHub .html or .htm file URL to preview it here.", "neutral");
+  urlInput.disabled = false;
+  urlInput.value = "";
+  urlInput.focus();
+  window.history.replaceState({}, "", getPreviewBaseUrl());
 });
 
 openSourceButton.addEventListener("click", () => {
@@ -184,9 +222,12 @@ fullscreenButton.addEventListener("click", async () => {
 
 const initialUrl = readInitialQueryUrl();
 if (initialUrl) {
+  setViewMode("loading-preview");
   urlInput.value = initialUrl;
   loadPreview(initialUrl);
 } else {
+  setViewMode("landing");
   setActionButtons(false);
   setMetadata(null);
+  setPreviewSummary(null, null);
 }

@@ -26,6 +26,8 @@ Legacy direct query form is also accepted:
 https://evotecit.github.io/HtmlPreview/?https://github.com/OWNER/REPO/blob/main/file.html
 ```
 
+Opening the base domain shows the URL entry screen. Opening a URL with `?url=` loads the report in a full-window preview mode with a compact action dock.
+
 ## Local Development
 
 ```powershell
@@ -44,5 +46,7 @@ The `Deploy GitHub Pages` workflow prepares `site/core`, uploads `site/`, and de
 Previewed HTML is assigned only to `iframe.srcdoc` with `sandbox="allow-scripts allow-popups allow-downloads allow-forms"` and `referrerpolicy="no-referrer"`. The parent UI does not inject fetched HTML into its own DOM.
 
 Stage 1 is best for public, trusted, self-contained reports. Single-file HTML with inline CSS/JS is most reliable. Public CDN assets are fine. Relative assets are best-effort through the injected `<base href>`. Private repositories, authentication, CORS proxies, branch names containing slashes, and complex multi-file apps are not supported in Stage 1.
+
+The browser tab title is updated from the fetched report title after load. Per-report social/link preview metadata is not possible in static Stage 1 hosting because unfurlers need metadata in the initial HTML response.
 
 Manual coverage is listed in [docs/manual-tests.md](docs/manual-tests.md).

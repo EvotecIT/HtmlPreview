@@ -13,5 +13,5 @@ export {
 } from "./security.js";
 
 export { parseInputUrl } from "./github-url.js";
-export { injectBaseHref } from "./html-processing.js";
+export { extractHtmlMetadata, injectBaseHref } from "./html-processing.js";
 export { rewriteInternalHtmlLinks } from "./link-rewriter.js";

@@ -29,3 +29,16 @@ export function injectBaseHref(html, baseHref) {
 
   return `<!doctype html>\n${documentElement.outerHTML}`;
 }
+
+export function extractHtmlMetadata(html) {
+  const parser = new DOMParser();
+  const parsed = parser.parseFromString(String(html || ""), "text/html");
+  const title = (parsed.querySelector("title")?.textContent || "").trim();
+  const description = (
+    parsed.querySelector('meta[name="description" i]')?.getAttribute("content") ||
+    parsed.querySelector('meta[property="og:description" i]')?.getAttribute("content") ||
+    ""
+  ).trim();
+
+  return { title, description };
+}
