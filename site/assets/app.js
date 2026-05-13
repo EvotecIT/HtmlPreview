@@ -2,6 +2,7 @@ import {
   IFRAME_REFERRER_POLICY,
   IFRAME_SANDBOX,
   extractHtmlMetadata,
+  inlineRelativeHtmlFrames,
   injectBaseHref,
   parseInputUrl,
   rewriteInternalHtmlLinks
@@ -145,7 +146,8 @@ async function loadPreview(input) {
     const sourceHtml = await response.text();
     const metadata = extractHtmlMetadata(sourceHtml);
     const withBase = injectBaseHref(sourceHtml, context.rawBaseUrl);
-    const processedHtml = rewriteInternalHtmlLinks(withBase, context, getPreviewBaseUrl());
+    const withLinks = rewriteInternalHtmlLinks(withBase, context, getPreviewBaseUrl());
+    const processedHtml = await inlineRelativeHtmlFrames(withLinks, context, getPreviewBaseUrl());
 
     previewFrame.srcdoc = processedHtml;
     currentContext = context;

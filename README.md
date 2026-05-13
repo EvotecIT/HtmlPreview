@@ -9,6 +9,7 @@ This is not a proxy, backend, browser extension, private repository viewer, sani
 - Supports `github.com/OWNER/REPO/blob/BRANCH/path/file.html`
 - Supports `raw.githubusercontent.com/OWNER/REPO/BRANCH/path/file.html`
 - Converts blob URLs to raw URLs
+- Inlines relative nested `.html` and `.htm` iframe previews where possible
 - Runs fully as static HTML, CSS, and browser ES modules
 - Uses `packages/preview-core` as the source of truth, copied into `site/core` by `tools/prepare-site.ps1`
 

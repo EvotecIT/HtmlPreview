@@ -27,6 +27,7 @@ jobs:
             'packages/preview-core/index.js',
             'packages/preview-core/github-url.js',
             'packages/preview-core/html-processing.js',
+            'packages/preview-core/frame-rewriter.js',
             'packages/preview-core/link-rewriter.js',
             'packages/preview-core/security.js'
           )
