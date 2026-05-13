@@ -151,6 +151,22 @@ function injectLazyFrameLoader(parsed) {
 iframe[data-html-preview-srcdoc] {
   cursor: pointer;
 }
+[data-html-preview-frame-wrap] {
+  display: block;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  position: relative;
+  width: 100%;
+}
+[data-html-preview-frame-wrap] > iframe {
+  border: 0;
+  display: block;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+}
 .html-preview-frame-load {
   align-items: center;
   background: linear-gradient(135deg, #0f766e, #0d9488);
@@ -162,8 +178,13 @@ iframe[data-html-preview-srcdoc] {
   display: inline-flex;
   font: 800 13px/1 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   gap: 8px;
-  margin: 8px 0 0;
+  left: 50%;
+  margin: 0;
   padding: 10px 12px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, 52px);
+  z-index: 2;
 }`;
 
   const script = parsed.createElement("script");
