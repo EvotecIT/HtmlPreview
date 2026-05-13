@@ -6,7 +6,7 @@ import {
   injectBaseHref,
   parseInputUrl,
   rewriteInternalHtmlLinks
-} from "./core/index.js?v=20260513-initial-mode-lazy";
+} from "./core/index.js?v=20260513-initial-mode-lazy2";
 
 const form = document.querySelector("#preview-form");
 const urlInput = document.querySelector("#url-input");
