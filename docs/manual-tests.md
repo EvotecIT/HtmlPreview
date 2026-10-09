@@ -19,9 +19,11 @@ Use a local server or GitHub Pages deployment and run `tools/prepare-site.ps1` b
 15. Use Open source on GitHub and confirm the blob URL opens.
 16. Use Open raw file and confirm the raw file URL opens.
 17. Open a direct `?url=` preview and confirm the landing screen does not flash before the preview loads.
-18. Preview the ChartForgeX catalog and confirm nested HTML iframes show lazy placeholders by default.
-19. Add `&embed=live` to the ChartForgeX catalog URL and confirm nested HTML iframes render immediately.
-20. Add `&embed=off` to the ChartForgeX catalog URL and confirm nested HTML iframes are skipped with a clear placeholder.
+18. Preview a report containing relative HTML iframes and confirm they show lazy placeholders by default.
+19. Add `&embed=live` to that preview URL and confirm nested HTML iframes render immediately.
+20. Add `&embed=off` to that preview URL and confirm nested HTML iframes are skipped with a clear placeholder.
 21. Open the base domain and confirm the favicon, source CTA, and generic share metadata assets are present.
-22. In the ChartForgeX catalog, click a card `HTML` link and confirm the linked report opens through the previewer.
-23. In the ChartForgeX catalog, click card `SVG` and `PNG` links and confirm the raw artifacts open in normal browser tabs.
+22. In the ChartForgeX catalog, open an example and confirm it opens through the previewer.
+23. On an example page, confirm SVG and PNG downloads point to the raw artifacts.
+24. Load a report URL containing query parameters. Confirm its `html-preview-source-url` meta tag retains the full source URL, while the document base still resolves relative assets from the source directory. Repeat with a nested report.
+25. In the ChartForgeX catalog, select a theme and search filter, open an example, select PNG and follow another variant. Confirm the selected format and theme survive, then return to the catalog and confirm the filter survives.

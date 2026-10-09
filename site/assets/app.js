@@ -157,7 +157,7 @@ async function loadPreview(input) {
     setStatus("Preparing report preview...", "neutral");
     const embedMode = readEmbedMode();
     const metadata = extractHtmlMetadata(sourceHtml);
-    const withBase = injectBaseHref(sourceHtml, context.rawBaseUrl);
+    const withBase = injectBaseHref(sourceHtml, context.rawBaseUrl, context.inputUrl);
     const withLinks = rewriteInternalHtmlLinks(withBase, context, getPreviewBaseUrl());
     const processedHtml = await inlineRelativeHtmlFrames(withLinks, context, getPreviewBaseUrl(), {
       embedMode
