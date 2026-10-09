@@ -1,4 +1,4 @@
-export function injectBaseHref(html, baseHref) {
+export function injectBaseHref(html, baseHref, sourceUrl = "") {
   if (!baseHref) {
     throw new Error("A base href is required before rendering the preview.");
   }
@@ -26,6 +26,14 @@ export function injectBaseHref(html, baseHref) {
   const base = parsed.createElement("base");
   base.setAttribute("href", baseHref);
   head.insertBefore(base, head.firstChild);
+
+  parsed.querySelectorAll('meta[name="html-preview-source-url" i]').forEach((element) => element.remove());
+  if (sourceUrl) {
+    const source = parsed.createElement("meta");
+    source.setAttribute("name", "html-preview-source-url");
+    source.setAttribute("content", sourceUrl);
+    head.appendChild(source);
+  }
 
   return `<!doctype html>\n${documentElement.outerHTML}`;
 }

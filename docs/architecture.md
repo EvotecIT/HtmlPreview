@@ -18,7 +18,7 @@ Stage 1 is a static GitHub Pages app. There is no server, proxy, database, GitHu
 1. The UI reads `?url=` or the legacy direct query string.
 2. `parseInputUrl` validates and normalizes the GitHub URL.
 3. The browser fetches `rawFileUrl` directly from `raw.githubusercontent.com`.
-4. `injectBaseHref` removes existing `<base>` tags and inserts one pointing to `rawBaseUrl`.
+4. `injectBaseHref` removes existing `<base>` tags and inserts one pointing to `rawBaseUrl`. It supplies the original report URL in a `html-preview-source-url` meta tag, so report scripts can read query parameters while the sandbox keeps `location` isolated. Nested reports receive their own source URL.
 5. `rewriteInternalHtmlLinks` rewrites relative `.html` and `.htm` links to this previewer.
 6. `inlineRelativeHtmlFrames` handles relative `.html` and `.htm` iframe sources. The default `embed=lazy` mode prepares nested frames but loads them on demand. `embed=live` renders them immediately and `embed=off` skips them.
 7. The processed HTML is assigned to a sandboxed iframe through `srcdoc`.

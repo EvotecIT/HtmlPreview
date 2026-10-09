@@ -86,7 +86,7 @@ export async function inlineRelativeHtmlFrames(html, context, previewBaseUrl, op
       }
 
       const nestedSource = await fetchText(fetcher, nestedContext.rawFileUrl);
-      const nestedWithBase = injectBaseHref(nestedSource, nestedContext.rawBaseUrl);
+      const nestedWithBase = injectBaseHref(nestedSource, nestedContext.rawBaseUrl, nestedContext.inputUrl);
       const nestedWithLinks = rewriteInternalHtmlLinks(nestedWithBase, nestedContext, previewBaseUrl);
       const nestedProcessed = await inlineRelativeHtmlFrames(nestedWithLinks, nestedContext, previewBaseUrl, {
         embedMode,
