@@ -1,0 +1,4 @@
+# Preview URLs are intentionally noindex. Allow crawling so robots can read
+# the HTML noindex directive, including on URLs with a report query.
+User-agent: *
+Allow: /
